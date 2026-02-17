@@ -9,14 +9,18 @@
 - [x] Compatibility shim (hbc56emu.h) for shared device code
 - [x] Build verification and bug fixes
 - [x] Test with eater.bin ROM - Woz Monitor `\` prompt displays
-- [ ] Fix interrupt storm (disable non-ACIA IRQs)
-- [ ] Verify BASIC works end-to-end (A000 R → MEMORY SIZE? → OK prompt)
+- [x] Fix interrupt storm (disable non-ACIA IRQs in config.h)
+- [x] Fix doTick() timing (catch-up batching for full 4 MHz speed)
+- [x] Verify BASIC works end-to-end (A000 R → MEMORY SIZE? → OK prompt)
+- [x] Ctrl+V paste with flow control (reads BIOS buffer pointers)
+- [x] v0.1 GitHub release with portable Linux x86_64 binary
 
 ## Phase 2: Refinements
-- [ ] Restore 1 MHz clock after speed fix
-- [ ] ACIA terminal improvements (scrollback, cursor blink, colors)
-- [ ] VIA1/VIA2 debugger views
-- [ ] File dialog default to eater.bin location
+- [ ] ACIA terminal improvements (cursor blink, screen clear)
+- [ ] VIA2 debugger view (currently only VIA1 shown)
+- [ ] ACIA IRQ behavior verification against real 65C51
+- [ ] Paste: respect VIA1 PORTA bit 0 (hardware RTS) instead of zero-page hack
+- [ ] Serial file transfer (send file to ACIA)
 - [ ] Save/restore emulator state
 
 ## Phase 3: Graphics & Sound
@@ -25,10 +29,11 @@
 - [ ] BASIC extensions for graphics/sound commands
 
 ## Phase 4: Advanced Features
-- [ ] Serial file transfer (load BASIC programs via ACIA)
+- [ ] Support label files (.lbl) from cc65 builds
+- [ ] Memory-mapped I/O view in debugger
 - [ ] Breakpoint conditions
 - [ ] Memory watch windows
-- [ ] Performance profiling view
+- [ ] Automated testing: load ROM, send commands, verify output
 
 ## Source of HBC-56 Emulator
 - Repository: https://github.com/visrealm/hbc-56

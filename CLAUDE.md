@@ -53,11 +53,13 @@ The emulator uses the HBC-56 device-based architecture where each hardware compo
 Internal function names kept as `hbc56*` for compatibility with shared device code from the submodule. Only user-visible strings (window title, binary name) are renamed.
 
 ## Current Status
-- Emulator builds and runs successfully
-- Woz Monitor `\` prompt displays in ACIA terminal
-- BASIC can be entered via `A000 R` but "MEMORY SIZE?" prompt input is problematic
-- **Known issue:** Slow execution (~30s for initial prompt at 4 MHz). Suspected interrupt storm from TMS9918A VBlank and VIA timer IRQs that the ROM's IRQ handler never acknowledges (it only handles ACIA). Fix: disable non-ACIA IRQs in config.h.
-- Clock currently set to 4 MHz (was 1 MHz, bumped for testing)
+- Emulator builds and runs at full 4 MHz speed
+- Woz Monitor boots and auto-enters BASIC via `A000 R`
+- BASIC fully functional: MEMORY SIZE?, TERMINAL WIDTH?, 31487 BYTES FREE, OK prompt
+- Ctrl+V paste works with flow control (reads BIOS buffer fill level)
+- Debugger, serial terminal, TMS9918A display all operational
+- v0.1 release published on GitHub with portable Linux x86_64 binary
+- Non-ACIA IRQs disabled in config.h (ROM only handles ACIA interrupts)
 
 ## Git Configuration
 - User: Paul
@@ -70,4 +72,10 @@ Internal function names kept as `hbc56*` for compatibility with shared device co
 - `hbc56emu.h` compatibility shim avoids modifying any submodule code
 - ACIA device is new (HBC-56 uses UART, DB6502 uses 65C51)
 - ROM loaded last in device chain so I/O devices shadow it
-- Non-ACIA IRQs should be disabled until ROM code handles them
+- Non-ACIA IRQs disabled in config.h (ROM only handles ACIA)
+- doTick() uses catch-up batching to maintain 4 MHz despite slow rendering
+- Paste flow control reads BIOS zero-page buffer pointers ($0000/$0001) directly
+
+## GitHub
+- Repository: https://github.com/mytestusernow/DB6502-Emulator
+- Release: v0.1 - Linux x86_64 portable binary (Db6502Emu-linux-x86_64.tar.gz)

@@ -1,9 +1,7 @@
 # DB6502 Emulator - TODO
 
 ## Critical (Blocking)
-- [ ] Disable non-ACIA IRQs in config.h (TMS9918, VIA1, VIA2, KB set to 0) to fix interrupt storm causing ~30s startup delay
-- [ ] Verify BASIC works after IRQ fix (A000 R -> MEMORY SIZE? -> enter -> OK prompt)
-- [ ] Fix keyboard input not getting through to BASIC "MEMORY SIZE?" prompt
+- None currently - emulator is functional
 
 ## Completed
 - [x] Project scaffold, git init, HBC-56 submodule added
@@ -18,16 +16,21 @@
 - [x] Fix: CR handling in terminal (CR produces newline, LF after CR suppressed)
 - [x] Fix: ROM loaded before I/O devices - deferred loadRom() to after device setup
 - [x] Fix: ACIA address range check unsigned wraparound
-- [x] Bumped clock to 4 MHz for speed testing
+- [x] Clock set to 4 MHz
 - [x] Woz Monitor `\` prompt displays correctly
-- [x] BASIC "MEMORY SIZE?" prompt appears (but input not working)
+- [x] Disabled non-ACIA IRQs in config.h (TMS9918, VIA1, VIA2, KB set to 0)
+- [x] Fix: doTick() timing - catch-up batching to maintain 4 MHz despite rendering overhead
+- [x] Fix: BASIC "MEMORY SIZE?" hang was actually 400x CPU slowdown from single-batch timing
+- [x] BASIC fully working (A000 R -> MEMORY SIZE? -> TERMINAL WIDTH? -> 31487 BYTES FREE -> OK)
+- [x] Ctrl+V paste with flow control (reads BIOS buffer pointers at $0000/$0001)
+- [x] v0.1 GitHub release with portable Linux x86_64 binary
 
 ## Short Term
-- [ ] Restore 1 MHz clock after interrupt storm fix
 - [ ] ACIA: verify IRQ behavior matches real 65C51
 - [ ] Terminal: add cursor blink
 - [ ] Terminal: handle screen clear (Ctrl+L or escape sequence)
 - [ ] VIA2 debugger view (currently only VIA1 shown)
+- [ ] Paste: respect VIA1 PORTA bit 0 (hardware RTS) instead of reading zero page directly
 
 ## Medium Term
 - [ ] TMS9918A: write test ROM to verify VDP operation
